@@ -1,3 +1,25 @@
+var closestPairs = function(arrDancer) {
+  var theDancer = arrDancer;
+  var partners = [];
+  var numPairs;
+  for (var i = 0; i < theDancer.length; i++) {
+    var closest = undefined;
+    for (var j = i + 1; j < theDancer.length; j++) {
+      var a2 = (theDancer[i].top - theDancer[j].top) * (theDancer[i].top - theDancer[j].top);
+      var b2 = (theDancer[i].left - theDancer[j].left) * (theDancer[i].left - theDancer[j].left);
+      if (a2 + b2 < closest || closest === undefined) {
+        closest = a2 + b2;
+        numPairs = j;
+      }
+      if (j === theDancer.length - 1) {
+        partners.push([theDancer[i], theDancer[numPairs]]);
+        theDancer.splice(numPairs, 1);
+      }
+    }
+  }
+  return partners;
+};
+
 $(document).ready(function() {
   window.dancers = [];
 
@@ -15,7 +37,7 @@ $(document).ready(function() {
      * A new object of the given type will be created and added
      * to the stage.
      */
-     debugger;
+  
     var dancerMakerFunctionName = $(this).data('dancer-maker-function-name');
 
     // get the maker function for the kind of dancer we're supposed to make
@@ -28,8 +50,29 @@ $(document).ready(function() {
       $("body").width() * Math.random(),
       Math.random() * 1000
     );
-    console.log
+    window.dancers.push(dancer);
     $('body').append(dancer.$node);
+  });
+  $('.lineUpButton').on('click', function(event) {
+    //alert('omg i got clilcked');
+    for (var i = 0; i < window.dancers.length; i++) {
+      var spacing = $(window).width() / window.dancers.length;
+      window.dancers[i].lineUp(spacing * i);
+    }
+  });
+  $('.scatter').on('click', function(event) {
+    for (var i = 0; i < window.dancers.length; i++) {
+      var top = $("body").width() * Math.random();
+      var left = $('body').height() * Math.random();
+      window.dancers[i].setPosition(top, left);
+    }
+  });
+  $('.partners').on('click', function(event) {
+    var partners = closestPairs(window.dancers);
+    for (var i = 0; i < partners.length; i++) {
+      partners[i][0].interact(partners[i][1]);
+    }
+    
   });
 });
 
