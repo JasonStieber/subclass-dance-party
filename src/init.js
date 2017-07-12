@@ -1,5 +1,6 @@
 var closestPairs = function(arrDancer) {
-  var theDancer = arrDancer;
+  console.log(arrDancer); 
+  var theDancer = arrDancer.slice();
   var partners = [];
   var numPairs;
   for (var i = 0; i < theDancer.length; i++) {
@@ -17,6 +18,7 @@ var closestPairs = function(arrDancer) {
       }
     }
   }
+  console.log(arrDancer);
   return partners;
 };
 
@@ -46,13 +48,51 @@ $(document).ready(function() {
     // make a dancer with a random position
 
     var dancer = new dancerMakerFunction(
-      $("body").height() * Math.random(),
-      $("body").width() * Math.random(),
+      $('body').height() * Math.random(),
+      $('body').width() * Math.random(),
       Math.random() * 1000
     );
     window.dancers.push(dancer);
     $('body').append(dancer.$node);
   });
+  
+  $('.addBatDancerButton').on('click', function(event) {
+    // debugger;
+    var batManDancerMakerFunctionName = $(this).data('dancer-maker-function-name');
+    console.log(batManDancerMakerFunctionName);
+    // get the maker function for the kind of dancer we're supposed to make
+    var batManDancerMakerFunction = window[batManDancerMakerFunctionName];
+    console.log(batManDancerMakerFunction);
+    // make a dancer with a random position
+
+    var batManDancer = new batManDancerMakerFunction(
+      $('body').height() * Math.random(),
+      $('body').width() * Math.random(),
+      Math.random() * 1000
+    );
+    window.dancers.push(batManDancer);
+    $('body').append(batManDancer.$node);
+  });
+  
+    $('.addSpiderDancerButton').on('click', function(event) {
+    // debugger;
+    var spiderManDancerMakerFunctionName = $(this).data('dancer-maker-function-name');
+    console.log(spiderManDancerMakerFunctionName);
+    // get the maker function for the kind of dancer we're supposed to make
+    var spiderManDancerMakerFunction = window[spiderManDancerMakerFunctionName];
+    console.log(spiderManDancerMakerFunction);
+    // make a dancer with a random position
+
+    var spiderManDancer = new spiderManDancerMakerFunction(
+      $('body').height() * Math.random(),
+      $('body').width() * Math.random(),
+      Math.random() * 1000
+    );
+    window.dancers.push(spiderManDancer);
+    $('body').append(spiderManDancer.$node);
+  });
+  
+  
   $('.lineUpButton').on('click', function(event) {
     //alert('omg i got clilcked');
     for (var i = 0; i < window.dancers.length; i++) {
@@ -62,7 +102,7 @@ $(document).ready(function() {
   });
   $('.scatter').on('click', function(event) {
     for (var i = 0; i < window.dancers.length; i++) {
-      var top = $("body").width() * Math.random();
+      var top = $('body').width() * Math.random();
       var left = $('body').height() * Math.random();
       window.dancers[i].setPosition(top, left);
     }
@@ -74,5 +114,6 @@ $(document).ready(function() {
     }
     
   });
+  
 });
 
